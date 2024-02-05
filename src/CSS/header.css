@@ -1,0 +1,16 @@
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: lightgray;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+#user-greeting {
+    font-size: 2rem;
+}
