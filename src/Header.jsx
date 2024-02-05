@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
     const { currentUser }= useContext(UsernameContext);
-    console.log(currentUser.username)
     return (
         <header>
             <Link to="/">

@@ -6,7 +6,6 @@ import "./CSS/app.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({ username: 'jessjelly' });
-  console.log(currentUser)
 
   return (
     <>

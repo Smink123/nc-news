@@ -2,8 +2,41 @@ nav {
     display: flex;
     flex-direction: column;
     background-color: lightgray;
+    width: 250px;
+    height: 100%;
 }
 
 nav h3 {
     padding: 0 20px;
 }
+
+.drop-down-organiser {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.dropdown-button {
+    width: 250px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#view-all-button {
+    width: 250px
+}
+
+@media only screen and (max-width: 850px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        background-color: lightgray;
+        width: 100%;
+        height: 100%;
+    }
+    .dropdown-button, #view-all-button, .drop-down-organiser {
+        width: 100%;
+    }
+  }

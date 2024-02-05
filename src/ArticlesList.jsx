@@ -1,53 +1,25 @@
 import "./CSS/article-container.css";
+import { Link } from "react-router-dom";
 
 export default function ArticlesList({ searchResultsArticles }) {
-  console.log("inside list: ", searchResultsArticles.result);
 
-  function arrangeDate(timeString) {
-    const timeArray = timeString.split("T");
-    return timeArray[0];
-  }
-  function arrangeTime(timeString) {
-    const timeArray = timeString.split("T");
-    const time = timeArray[1];
-    const trimmedTime = time.substring(0, 5);
-    return trimmedTime;
-  }
   return (
-    <>
-      <p>Total articles: {searchResultsArticles.total_count}</p>
+    <article id='entire-articles'>
       {searchResultsArticles.result.map((item) => {
         return (
           <div id="article-container" key={item.article_id}>
-            <div id="article-top">
-              <p id="article-title">{item.title}</p>
+            <section id="article-top">
+              <h3 id='article-header'>{item.title}</h3>
               <p>By {item.author}</p>
-              <div id="author-time">
-                <p>
-                  Created {arrangeDate(item.created_at)},{" "}
-                  {arrangeTime(item.created_at)}{" "}
-                </p>
-                <p className="italic">{item.topic}</p>
-              </div>
-            </div>
-            <img src={item.article_img_url} alt={item.title} />
-            <div id="article-body">
-              <p>{item.body}</p>
-            </div>
-            <div id="votes-container">
-              <button>↑</button>
-              <p>Votes: {item.votes}</p>
-              <button>↓</button>
-            </div>
-            <div id='comments-top'>
-              <p>Comments: {item.comment_count}</p>
-              <button>Show comments</button>
-            </div>
+              <p className="italic">{item.topic}</p>
+            </section>
+            <img id='all-img'src={item.article_img_url} alt={`Photograph image for ${item.title}`} />
+            <Link to={`/articles/${item.article_id}`}>
+              <button>view article</button>
+            </Link>
           </div>
         );
       })}
-    </>
+      </article>
   );
 }
-
-//article_id
