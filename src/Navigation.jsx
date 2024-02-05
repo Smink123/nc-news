@@ -8,8 +8,8 @@ export default function Navigation() {
         <nav>
             <h3>Navigation</h3>
             <ViewAll/>
-            {/* <ViewIndivudal/>
-            <ViewTopics/> */}
+            <ViewIndivudal/>
+            {/* <ViewTopics/> */}
         </nav>
     )
 }

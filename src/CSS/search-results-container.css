@@ -1,7 +1,17 @@
 main {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#entire-articles {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+}
+
+#total-amount-num {
+    text-align: center;
 }

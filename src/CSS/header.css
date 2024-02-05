@@ -5,6 +5,7 @@ header {
     align-items: center;
     background-color: lightgray;
     padding: 20px;
+    width: 100%;
 }
 
 h1 {
