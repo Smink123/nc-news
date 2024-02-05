@@ -88,6 +88,32 @@ article {
     #single-container {
         width: 500px;
     }
+  }
 
+  @media only screen and (max-width: 500px) {
+    #single-article-page {
+        margin: 0;
+    }
+    #single-img {
+        width: 300px;
+        margin: 0 20px;
+    }
+    #single-container {
+        width: 100%;
+    }
+    #top-single-article {
+        flex-direction: column;
+        align-items: center;
+    }
+    #top-single-article section {
+        text-align: center;
+    }
+  }
+
+  @media only screen and (max-width: 350px) {
+
+    #single-img {
+        width: 100%;
+    }
   }
   
