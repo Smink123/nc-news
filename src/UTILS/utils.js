@@ -15,3 +15,9 @@ export const getArticleByID = (id) => {
     return response.data
 })
 }
+
+export const getCommentsByID = (id) => {
+  return ncNews.get(`/articles/${id}/comments`).then((response) => {
+    return response.data
+})
+}
