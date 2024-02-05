@@ -1,21 +1,25 @@
 import { useParams } from "react-router-dom";
 import { getArticleByID } from "./UTILS/utils";
 import { useEffect, useState } from "react";
+import Comments from "./Comments";
 import "./CSS/single-article-container.css";
+import Expandable from "./Expandable";
 
 export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
+  const [articleID, setArticleID] = useState(null);
   const { article_id } = useParams();
 
   useEffect(() => {
     getArticleByID(article_id)
       .then((response) => {
         setArticleData(response.article);
+        setArticleID(response.article.article_id);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [article_id]);
+  }, [article_id, articleID]);
 
   function arrangeDate(timeString) {
     if (timeString) {
@@ -40,7 +44,7 @@ export default function SingleArticle() {
         <h2>{articleData.title}</h2>
         <div id="top-single-article">
           <section>
-            <p>Written by {articleData.author}</p>
+            <b>Written by {articleData.author}</b>
             <p>
               Created {arrangeDate(articleData.created_at)},{" "}
               {arrangeTime(articleData.created_at)}
@@ -63,7 +67,9 @@ export default function SingleArticle() {
         </div>
         <div id="comments-top">
           <p>Comments: {articleData.comment_count}</p>
-          <button>Show comments</button>
+        <Expandable contentDescriptor={"comments"}>
+          <Comments articleID={articleID} />
+        </Expandable>
         </div>
       </article>
     </section>

@@ -1,0 +1,17 @@
+#individual-comment-container {
+    background-color: #757575;
+    color: white;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+#comment-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#comment-button-container button {
+    margin: 0 10px;
+}
