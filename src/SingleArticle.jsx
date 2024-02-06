@@ -2,18 +2,22 @@ import { useParams } from "react-router-dom";
 import { getArticleByID } from "./UTILS/utils";
 import { useEffect, useState } from "react";
 import Comments from "./Comments";
-import "./CSS/single-article-container.css";
 import Expandable from "./Expandable";
+import { patchArticleVote } from "./UTILS/utils";
+import "./CSS/single-article-container.css";
 
 export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
   const [articleID, setArticleID] = useState(null);
+  const [errMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(false);
+
   const { article_id } = useParams();
 
   useEffect(() => {
     getArticleByID(article_id)
       .then((response) => {
-        setArticleData(response.article);
+        setArticleData({...response.article, voted: false});
         setArticleID(response.article.article_id);
       })
       .catch((err) => {
@@ -38,6 +42,27 @@ export default function SingleArticle() {
     return "";
   }
 
+  function updateVote(id, number, status) {
+    setArticleData((previousData) => {
+      return { ...previousData, votes: previousData.votes + number, voted: true }
+    })
+    patchArticleVote({ inc_votes: number }, id).then((response) => {
+      setErrorMessage(null);
+      setSuccessMessage(true)
+      console.log(articleData)
+
+    })
+    .catch((err) => {
+      console.log(err)
+      setArticleData((previousData) => {
+        return { ...previousData, votes: previousData.votes - number, voted: false }
+      })
+      setSuccessMessage(false)
+      setErrorMessage("Cannot add votes at this time.");
+    })
+  }
+  
+
   return (
     <section id="single-article-page">
       <article id="single-container">
@@ -61,10 +86,16 @@ export default function SingleArticle() {
           <p>{articleData.body}</p>
         </section>
         <div id="votes-container">
-          <button>↑</button>
+          {!articleData.voted && (
+            <button onClick={() => updateVote(articleData.article_id, 1, "up")}>↑</button>
+          )}
           <p>Votes: {articleData.votes}</p>
-          <button>↓</button>
+          {!articleData.voted && (
+          <button onClick={() => updateVote(articleData.article_id, -1, "down")}>↓</button>
+          )}
         </div>
+        {articleData.voted && <aside className='success' role="status">Vote submitted!</aside>}
+        {errMessage ? <aside className='error' role="alert">{errMessage}</aside> : null}
         <div id="comments-top">
           <p>Comments: {articleData.comment_count}</p>
         <Expandable contentDescriptor={"comments"}>
