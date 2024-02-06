@@ -7,9 +7,9 @@ import "./CSS/comments.css";
 import { deleteComment } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 
-export default function Comments({ articleID, setArticleData, articleComments, setArticleComments }) {
+export default function Comments({ articleID, setArticleData }) {
   const { currentUser } = useContext(UsernameContext);
-  // const [articleComments, setArticleComments] = useState([]);
+  const [articleComments, setArticleComments] = useState([]);
   const [successDelete, setSuccessDelete] = useState(false);
 
   useEffect(() => {
@@ -29,8 +29,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
           console.error("Error fetching comments:", error);
         });
     }
-  }, [articleID, articleComments]);
-  
+  }, [articleID]);
 
   function deleting(id) {
     setArticleComments((previous) => {
@@ -63,13 +62,14 @@ export default function Comments({ articleID, setArticleData, articleComments, s
         setSuccessDelete(false);
       });
   }
+
   return (
-    <div>
+    <>
       {successDelete && (
         <aside className="success">Successfully deleted!</aside>
-        )}
+      )}
       {articleComments.map((comment) => (
-        <section key={comment.body + comment.comment_id} id="individual-comment-container">
+        <section key={comment.comment_id} id="individual-comment-container">
           <b>{comment.author}</b>
           <p className="italic">
             {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
@@ -99,15 +99,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
         articleID={articleID}
         setArticleComments={setArticleComments}
         setArticleData={setArticleData}
-        articleComments={articleComments}
       />
-    </div>
+    </>
   );
 }
-
-
-
-
-
-
-
