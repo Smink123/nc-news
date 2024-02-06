@@ -21,3 +21,10 @@ export const getCommentsByID = (id) => {
     return response.data
 })
 }
+
+export const patchArticleVote = (update, id) => {
+  return ncNews.patch(`/articles/${id}`, update).then((response) => {
+    return response.data
+  })
+}
+
