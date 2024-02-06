@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getCommentsByID } from "./UTILS/utils";
+import PostComment from "./PostComment";
 import "./CSS/comments.css";
 
-export default function Comments({ articleID }) {
+export default function Comments({ articleID, setArticleData }) {
   const [articleComments, setArticleComments] = useState([]);
 
   useEffect(() => {
     if (articleID) {
       getCommentsByID(articleID)
         .then((response) => {
-          console.log(response.comments);
           setArticleComments(response.comments);
         })
         .catch((error) => {
@@ -41,8 +41,7 @@ export default function Comments({ articleID }) {
         <section key={comment.comment_id} id="individual-comment-container">
           <b>{comment.author}</b>
           <p className="italic">
-            {arrangeDate(comment.created_at)},{" "}
-            {arrangeTime(comment.created_at)}
+            {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
           </p>
           <hr></hr>
           <p>"{comment.body}"</p>
@@ -53,6 +52,11 @@ export default function Comments({ articleID }) {
           </div>
         </section>
       ))}
+      <PostComment
+        articleID={articleID}
+        setArticleComments={setArticleComments}
+        setArticleData={setArticleData}
+      />
     </>
   );
 }

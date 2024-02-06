@@ -1,4 +1,4 @@
-#individual-comment-container {
+#individual-comment-container, form {
     background-color: #757575;
     color: white;
     margin-top: 20px;
@@ -14,4 +14,26 @@
 
 #comment-button-container button {
     margin: 0 10px;
+}
+
+#status-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#comment-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#comment-submit-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#comment-submit-container button {
+    margin-top: 10px;
 }
