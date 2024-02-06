@@ -11,6 +11,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
   const { currentUser } = useContext(UsernameContext);
   // const [articleComments, setArticleComments] = useState([]);
   const [successDelete, setSuccessDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState(false)
 
   useEffect(() => {
     if (articleID) {
@@ -29,7 +30,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
           console.error("Error fetching comments:", error);
         });
     }
-  }, [articleID, articleComments]);
+  }, [articleID]);
   
 
   function deleting(id) {
@@ -53,6 +54,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
       })
       .catch((err) => {
         console.log(err);
+        setDeleteError(true)
         setArticleComments((previous) => {
           return previous.map((comment) => {
             if (id === comment.comment_id) {
@@ -63,6 +65,8 @@ export default function Comments({ articleID, setArticleData, articleComments, s
         setSuccessDelete(false);
       });
   }
+
+
   return (
     <div>
       {successDelete && (
@@ -70,6 +74,11 @@ export default function Comments({ articleID, setArticleData, articleComments, s
         )}
       {articleComments.map((comment) => (
         <section key={comment.body + comment.comment_id} id="individual-comment-container">
+          {comment.deleteError && deleteError &&(
+            <aside className="dark-error">
+              delete unsuccessful. Please try again
+            </aside>
+          )}
           <b>{comment.author}</b>
           <p className="italic">
             {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
@@ -87,12 +96,7 @@ export default function Comments({ articleID, setArticleData, articleComments, s
                 <button onClick={() => deleting(comment.comment_id)}>DELETE</button>
               </>
             )}
-          {comment.loadingDelete && <p>deleting...</p>}
-          {comment.deleteError && (
-            <aside className="dark-error">
-              delete unsuccessful. Please try again
-            </aside>
-          )}
+          {/* {comment.loadingDelete && <p>deleting...</p>} */}
         </section>
       ))}
       <PostComment
