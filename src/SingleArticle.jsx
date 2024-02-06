@@ -11,8 +11,6 @@ export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
   const [articleID, setArticleID] = useState(null);
   const [errMessage, setErrorMessage] = useState(null);
-  const [articleComments, setArticleComments] = useState([]);
-
 
   const { article_id } = useParams();
 
@@ -25,7 +23,7 @@ export default function SingleArticle() {
       .catch((err) => {
         console.log(err);
       });
-  }, [article_id, articleID, articleComments]);
+  }, [article_id, articleID]);
 
   function updateVote(id, number) {
     setArticleData((previousData) => {
@@ -75,12 +73,12 @@ export default function SingleArticle() {
           <button onClick={() => updateVote(articleData.article_id, -1)}>↓</button>
           )}
         </div>
-        <b>Comments: {articleData.comment_count}</b>
         {articleData.voted && <aside className='success' role="status">Vote submitted!</aside>}
         {errMessage ? <aside className='error' role="alert">{errMessage}</aside> : null}
         <div id="comments-top">
+          <p>Comments: {articleData.comment_count}</p>
         <Expandable contentDescriptor={"comments"}>
-          <Comments articleID={articleID} setArticleData={setArticleData} articleComments={articleComments} setArticleComments={setArticleComments} />
+          <Comments articleID={articleID} setArticleData={setArticleData} />
         </Expandable>
         </div>
       </article>
