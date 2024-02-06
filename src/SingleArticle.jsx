@@ -79,9 +79,9 @@ export default function SingleArticle() {
         {articleData.voted && <aside className='success' role="status">Vote submitted!</aside>}
         {errMessage ? <aside className='error' role="alert">{errMessage}</aside> : null}
         <div id="comments-top">
-        {/* <Expandable contentDescriptor={"comments"}> */}
+        <Expandable contentDescriptor={"comments"}>
           <Comments articleID={articleID} setArticleData={setArticleData} articleComments={articleComments} setArticleComments={setArticleComments} />
-        {/* </Expandable> */}
+        </Expandable>
         </div>
       </article>
     </section>
