@@ -37,3 +37,7 @@
 #comment-submit-container button {
     margin-top: 10px;
 }
+
+.dark-error {
+    color: black;
+}

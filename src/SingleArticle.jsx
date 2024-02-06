@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Comments from "./Comments";
 import Expandable from "./Expandable";
 import { patchArticleVote } from "./UTILS/utils";
+import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 import "./CSS/single-article-container.css";
 
 export default function SingleArticle() {
@@ -24,23 +25,6 @@ export default function SingleArticle() {
       });
   }, [article_id, articleID]);
 
-  function arrangeDate(timeString) {
-    if (timeString) {
-      const timeArray = timeString.split("T");
-      return timeArray[0];
-    }
-    return "";
-  }
-  function arrangeTime(timeString) {
-    if (timeString) {
-      const timeArray = timeString.split("T");
-      const time = timeArray[1];
-      const trimmedTime = time.substring(0, 5);
-      return trimmedTime;
-    }
-    return "";
-  }
-
   function updateVote(id, number) {
     setArticleData((previousData) => {
       return { ...previousData, votes: previousData.votes + number, voted: true }
@@ -58,7 +42,6 @@ export default function SingleArticle() {
     })
   }
   
-
   return (
     <section id="single-article-page">
       <article id="single-container">
