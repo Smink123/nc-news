@@ -119,7 +119,7 @@ article {
   }
   
   .success {
-    color: rgb(31, 159, 31);
+    color: green
   }
 
   .error {

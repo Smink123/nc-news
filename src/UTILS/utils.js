@@ -28,3 +28,12 @@ export const patchArticleVote = (update, id) => {
   })
 }
 
+export const postComment = (comment, id) => {
+  // console.log('comment', comment)
+  // console.log('id', id)
+
+  return ncNews.post(`articles/${id}/comments`, comment).then((response) => {
+    // console.log('the response inside axios', response)
+    return response.data;
+  });
+};

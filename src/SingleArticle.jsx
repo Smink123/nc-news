@@ -10,7 +10,6 @@ export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
   const [articleID, setArticleID] = useState(null);
   const [errMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(false);
 
   const { article_id } = useParams();
 
@@ -42,14 +41,12 @@ export default function SingleArticle() {
     return "";
   }
 
-  function updateVote(id, number, status) {
+  function updateVote(id, number) {
     setArticleData((previousData) => {
       return { ...previousData, votes: previousData.votes + number, voted: true }
     })
     patchArticleVote({ inc_votes: number }, id).then((response) => {
       setErrorMessage(null);
-      setSuccessMessage(true)
-      console.log(articleData)
 
     })
     .catch((err) => {
@@ -57,7 +54,6 @@ export default function SingleArticle() {
       setArticleData((previousData) => {
         return { ...previousData, votes: previousData.votes - number, voted: false }
       })
-      setSuccessMessage(false)
       setErrorMessage("Cannot add votes at this time.");
     })
   }
@@ -87,11 +83,11 @@ export default function SingleArticle() {
         </section>
         <div id="votes-container">
           {!articleData.voted && (
-            <button onClick={() => updateVote(articleData.article_id, 1, "up")}>↑</button>
+            <button onClick={() => updateVote(articleData.article_id, 1)}>↑</button>
           )}
           <p>Votes: {articleData.votes}</p>
           {!articleData.voted && (
-          <button onClick={() => updateVote(articleData.article_id, -1, "down")}>↓</button>
+          <button onClick={() => updateVote(articleData.article_id, -1)}>↓</button>
           )}
         </div>
         {articleData.voted && <aside className='success' role="status">Vote submitted!</aside>}
@@ -99,7 +95,7 @@ export default function SingleArticle() {
         <div id="comments-top">
           <p>Comments: {articleData.comment_count}</p>
         <Expandable contentDescriptor={"comments"}>
-          <Comments articleID={articleID} />
+          <Comments articleID={articleID} setArticleData={setArticleData} />
         </Expandable>
         </div>
       </article>
