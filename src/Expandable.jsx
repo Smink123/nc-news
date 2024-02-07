@@ -11,8 +11,8 @@ export default function Expandable({ children, contentDescriptor }) {
 
     return (
         <div className='drop-down-organiser'>
-            <button onClick={toggleOpen}>
-            {isOpen ? "HIDE" : "SHOW"} {contentDescriptor}
+            <button onClick={toggleOpen} id='topic-section-button'>
+            {isOpen ? "Hide" : `View ${contentDescriptor}`}
             </button>
             {isOpen ? children : null}
         </div>

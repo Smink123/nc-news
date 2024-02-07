@@ -20,7 +20,7 @@ export default function ViewIndividual() {
 
   return (
     <>
-      <Expandable contentDescriptor={"individual articles"}>
+      <Expandable contentDescriptor={"Individual Articles"}>
         {buttonsVisible && (
           <>
             {viewArticleTitles.result.map((article) => (
