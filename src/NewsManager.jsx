@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Home from "./Home";
 import Navigation from "./Navigation";
@@ -8,12 +8,14 @@ import SingleArticle from "./SingleArticle";
 
 export default function NewsManager() {
   const [searchResultsArticles, setSearchResultArticals] = useState([])
+  const [searchParams, setSearchParams] = useSearchParams();
+
   return (
     <section id="main-body-container">
-      <Navigation />
+      <Navigation searchParams={searchParams} setSearchParams={setSearchParams}/>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/articles" element={<AllArticles searchResultsArticles={searchResultsArticles} setSearchResultArticals={setSearchResultArticals}/>}></Route>
+        <Route path="/articles" element={<AllArticles searchResultsArticles={searchResultsArticles} setSearchResultArticals={setSearchResultArticals} searchParams={searchParams} setSearchParams={setSearchParams}/>}></Route>
         <Route path="/articles/:article_id" element={<SingleArticle/>}></Route>
       </Routes>
     </section>

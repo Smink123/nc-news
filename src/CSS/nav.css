@@ -4,6 +4,7 @@ nav {
     background-color: lightgray;
     width: 250px;
     height: 100%;
+    text-align: center;
 }
 
 nav h3 {
@@ -20,12 +21,39 @@ nav h3 {
     width: 250px;
     border: none;
     border-bottom: 1px solid black;
+    border-right: 1px solid black;
     padding: 5px;
     cursor: pointer;
+    background-color: rgb(179, 222, 222);
+}
+.dropdown-button:hover {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    padding: 5px;
+    cursor: pointer;
+    background-color: rgb(136, 185, 185);
 }
 
 #view-all-button {
-    width: 250px
+    width: 250px;
+}
+
+#topic-section-button, #view-all-button {
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+
+    padding: 10px;
+    font-size: 1rem;
+}
+
+#topic-section-button:hover, #view-all-button:hover {
+    background-color: lightcyan;
 }
 
 @media only screen and (max-width: 850px) {

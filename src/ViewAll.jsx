@@ -4,7 +4,7 @@ export default function ViewAll() {
     return (
         <>
         <Link to={"/articles"}>
-        <button id='view-all-button'>View all</button>
+        <button id='view-all-button'>View All Articles</button>
         </Link>
         </>
     )

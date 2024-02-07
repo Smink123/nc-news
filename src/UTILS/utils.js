@@ -4,8 +4,14 @@ const ncNews = axios.create({
   baseURL: "https://nc-news-sarah.onrender.com/api",
 });
 
-export const getArticles = () => {
-    return ncNews.get('/articles').then((response) => {
+export const getArticles = (topic) => {
+  let url=""
+  if (!topic) {
+    url = '/articles'
+  } else if (topic) {
+    url = `/articles?topic=${topic}`
+  }
+    return ncNews.get(url).then((response) => {
         return response.data
     })
 }
@@ -20,6 +26,12 @@ export const getCommentsByID = (id) => {
   return ncNews.get(`/articles/${id}/comments`).then((response) => {
     return response.data
 })
+}
+
+export const getTopics = () => {
+  return ncNews.get('/topics').then((response) => {
+      return response.data
+  })
 }
 
 export const patchArticleVote = (update, id) => {

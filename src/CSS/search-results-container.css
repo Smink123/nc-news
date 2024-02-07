@@ -10,12 +10,21 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    /* margin-top: 0;
-    padding-top: 0;
-    background-color: yellowgreen; */
 }
 
 #total-amount-num {
     text-align: center;
     margin-top: 50px;
+}
+
+.page-title {
+    text-align: center;
+}
+
+#query-error {
+    text-align: center;
+}
+
+#error-container {
+    width: 100%;
 }
