@@ -1,0 +1,13 @@
+#sorting-nav-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+}
+
+#sort-options, #order-options {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}

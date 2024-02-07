@@ -6,15 +6,10 @@ import { capitalise } from "./UTILS/capitalise";
 
 import './CSS/nav.css'
 
-export default function ViewTopics({ searchParams, setSearchParams }) {
+export default function ViewTopics({ setTopicQuery }) {
   const [viewTopicTitles, setViewTopicTitles] = useState([]);
   const [buttonsVisible, setButtonsVisible] = useState(false);
 
-  function setTopicQuery(topic) {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("topic", topic);
-    setSearchParams(newParams);
-  }
   useEffect(() => {
     getTopics().then((response) => {
       setViewTopicTitles(response.topics)
@@ -34,7 +29,7 @@ export default function ViewTopics({ searchParams, setSearchParams }) {
               <Link to={`/articles?topic=${topic.slug}`} key={topic.slug} onClick = {() => {
                 setTopicQuery(topic.slug) 
               }}>
-                <button className="dropdown-button">{capitalise(topic.slug)}</button>
+                <button key={topic.slug} onClick={() => setTopicQuery(topic.slug)} className="dropdown-button">{capitalise(topic.slug)}</button>
               </Link>
             ))}
           </>
