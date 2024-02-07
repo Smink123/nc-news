@@ -3,15 +3,14 @@ import axios from "axios";
 const ncNews = axios.create({
   baseURL: "https://nc-news-sarah.onrender.com/api",
 });
-
-export const getArticles = (topic) => {
-  let url=""
-  if (!topic) {
-    url = '/articles'
-  } else if (topic) {
-    url = `/articles?topic=${topic}`
-  }
-    return ncNews.get(url).then((response) => {
+export const getArticles = (topic, sortBy, orderBy) => {
+    return ncNews.get("/articles", {
+      params: {
+        topic: topic,
+        sort_by: sortBy,
+        order: orderBy
+      },
+    }).then((response) => {
         return response.data
     })
 }

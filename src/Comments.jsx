@@ -6,11 +6,14 @@ import { useContext } from "react";
 import "./CSS/comments.css";
 import { deleteComment } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
+import Snackbar from "@mui/material/Snackbar";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export default function Comments({ articleID, setArticleData }) {
   const { currentUser } = useContext(UsernameContext);
   const [articleComments, setArticleComments] = useState([]);
-  const [successDelete, setSuccessDelete] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     if (articleID) {
@@ -40,9 +43,9 @@ export default function Comments({ articleID, setArticleData }) {
         return comment;
       });
     });
-    setSuccessDelete(false);
-    deleteComment(id).then(() => {
-        setSuccessDelete(true);
+    deleteComment(id)
+      .then(() => {
+        setOpen(true);
         setArticleComments(
           articleComments.filter((item) => item.comment_id !== id)
         );
@@ -56,18 +59,22 @@ export default function Comments({ articleID, setArticleData }) {
           return previous.map((comment) => {
             if (id === comment.comment_id) {
               return { ...comment, loadingDelete: false, deleteError: true };
-            }return comment;
+            }
+            return comment;
           });
         });
-        setSuccessDelete(false);
       });
   }
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <>
-      {successDelete && (
-        <aside className="success">Successfully deleted!</aside>
-      )}
       {articleComments.map((comment) => (
         <section key={comment.comment_id} id="individual-comment-container">
           <b>{comment.author}</b>
@@ -84,10 +91,18 @@ export default function Comments({ articleID, setArticleData }) {
           {comment.author === currentUser.username &&
             !comment.loadingDelete && (
               <>
-                <button onClick={() => deleting(comment.comment_id)}>DELETE</button>
+                <button onClick={() => deleting(comment.comment_id)}>
+                  DELETE
+                </button>
+                <Snackbar
+                  open={open}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                  message="Successfully deleted"
+                />
               </>
             )}
-          {comment.loadingDelete && <p>deleting...</p>}
+          {comment.loadingDelete && <CircularProgress color="inherit" />}
           {comment.deleteError && (
             <aside className="dark-error">
               delete unsuccessful. Please try again

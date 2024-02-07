@@ -3,13 +3,13 @@ import ViewIndivudal from "./ViewIndividual"
 import ViewTopics from "./ViewTopics"
 import './CSS/nav.css'
 
-export default function Navigation({searchParams, setSearchParams}) {
+export default function Navigation({setTopicQuery}) {
     return (
         <nav>
             <h3>Navigation</h3>
             <ViewAll/>
             <ViewIndivudal/>
-            <ViewTopics searchParams={searchParams} setSearchParams={setSearchParams} />
+            <ViewTopics setTopicQuery={setTopicQuery}/>
         </nav>
     )
 }
