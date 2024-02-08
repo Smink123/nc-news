@@ -4,12 +4,10 @@ import { useContext } from "react";
 import { useState } from "react";
 import { getCommentsByID } from "./UTILS/utils";
 import { getArticleByID } from "./UTILS/utils";
+import { useEffect } from "react";
 
-
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Snackbar from '@mui/material/Snackbar';
-
+import * as React from "react";
+import Snackbar from "@mui/material/Snackbar";
 
 export default function PostComment({
   articleID,
@@ -17,50 +15,68 @@ export default function PostComment({
   setArticleData,
 }) {
   const { currentUser } = useContext(UsernameContext);
-  // const [commentPosted, setCommentPosted] = useState(false);
   const [open, setOpen] = React.useState(false);
-
   const [errorStatus, setErrorStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userComment, setUserComment] = useState({
     body: "",
     username: currentUser.username,
   });
 
-  function handleSubmit(event) {
+  useEffect(() => {
+    setErrorMessage("");
     setErrorStatus(false);
-    // setCommentPosted(false);
+    setOpen(false)
+  }, [articleID]);
+
+  function handleSubmit(event) {
     event.preventDefault();
-    setIsLoading(true);
-    postComment(userComment, articleID)
-    .then(() => {
+    if (userComment.body.length < 3) {
+      setErrorMessage(
+        "Error: Please ensure your comment has minimum of 2 characters"
+      );
       setUserComment({
         body: "",
         username: currentUser.username,
       });
-      setOpen(true);
-      // alert('comment succssfully posted')
-        // setCommentPosted(true);
-        setErrorStatus(false);
-        setIsLoading(false);
-        getCommentsByID(articleID).then((response) => {
-          setArticleComments(response.comments);
-
-          getArticleByID(articleID).then((response) => {
-            setArticleData(response.article);
+    } else {
+      setIsLoading(true);
+      postComment(userComment, articleID)
+        .then(() => {
+          setUserComment({
+            body: "",
+            username: currentUser.username,
+          });
+          setErrorStatus(false);
+          setOpen(true);
+          setIsLoading(false);
+          getCommentsByID(articleID).then((response) => {
+            setArticleComments(response.comments);
+            getArticleByID(articleID).then((response) => {
+              setArticleData(response.article);
+            });
+          });
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          if (
+            err.response.data.msg === "ID not found" ||
+            err.response.data.msg === "Bad request"
+          ) {
+            setErrorStatus("Cannot submit comment to a non-existent article.");
+          }
+          if (err.response.data.msg === "username not found") {
+            setErrorStatus(
+              "Your username has not been found. Unable to post comment"
+            );
+          }
+          setUserComment({
+            body: "",
+            username: currentUser.username,
           });
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-        // setCommentPosted(false);
-        setErrorStatus(true);
-        setUserComment({
-          body: "",
-          username: currentUser.username,
-        });
-      });
+    }
   }
 
   function handleKeyPress(event) {
@@ -70,45 +86,42 @@ export default function PostComment({
   }
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
 
-
-
   return (
     <>
       <form onSubmit={handleSubmit}>
-
-
         <div id="comment-box">
           <label htmlFor="post-comment">Write comment: </label>
-          <input onChange={handleKeyPress} id="post-comment" type="text" value={userComment.body} />
+          <input
+            onChange={handleKeyPress}
+            id="post-comment"
+            type="text"
+            value={userComment.body}
+          />
         </div>
         <div id="comment-submit-container">
           <button onClick={handleSubmit}>Submit comment</button>
           <Snackbar
-        open={open}
-        autoHideDuration={4000}
-        onClose={handleClose}
-        message="Successfully posted"
-      />
+            open={open}
+            autoHideDuration={4000}
+            onClose={handleClose}
+            message="Successfully posted"
+          />
         </div>
       </form>
       <div id="status-section">
         <div>
-          {errorStatus ? (
-            <aside className="error">
-              Error: Please ensure your comment has a length greater than 0.
-            </aside>
+          {errorMessage ? (
+            <aside className="error">{errorMessage}</aside>
           ) : null}
-          {/* {commentPosted ? (
-            <aside className="success">
-              ✓ your comment has been successfully posted
-            </aside>
-          ) : null} */}
+        </div>
+        <div>
+          {errorStatus ? <aside className="error">{errorStatus}</aside> : null}
         </div>
         {isLoading ? <p>loading...</p> : null}
       </div>

@@ -11,37 +11,58 @@ export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
   const [articleID, setArticleID] = useState(null);
   const [errMessage, setErrorMessage] = useState(null);
+  const [invalidID, setInvalidID] = useState(false);
+  const [loadingIndividual, setLoadingIndividual] = useState(false);
 
   const { article_id } = useParams();
 
   useEffect(() => {
+    setLoadingIndividual(true);
     getArticleByID(article_id)
       .then((response) => {
-        setArticleData({...response.article, voted: false});
+        setLoadingIndividual(false);
+
+        setArticleData({ ...response.article, voted: false });
         setArticleID(response.article.article_id);
       })
       .catch((err) => {
-        console.log(err);
+        setLoadingIndividual(false);
+        if (err.response.data.msg === 'Bad request' || err.response.data.msg === 'ID not found') {
+          setInvalidID(true);
+        }
       });
   }, [article_id, articleID]);
 
   function updateVote(id, number) {
     setArticleData((previousData) => {
-      return { ...previousData, votes: previousData.votes + number, voted: true }
-    })
-    patchArticleVote({ inc_votes: number }, id).then((response) => {
-      setErrorMessage(null);
-
-    })
-    .catch((err) => {
-      console.log(err)
-      setArticleData((previousData) => {
-        return { ...previousData, votes: previousData.votes - number, voted: false }
+      return {
+        ...previousData,
+        votes: previousData.votes + number,
+        voted: true,
+      };
+    });
+    patchArticleVote({ inc_votes: number }, id)
+      .then((response) => {
+        setErrorMessage(null);
       })
-      setErrorMessage("Cannot add votes at this time.");
-    })
+      .catch((err) => {
+        setArticleData((previousData) => {
+          return {
+            ...previousData,
+            votes: previousData.votes - number,
+            voted: false,
+          };
+        });
+        setErrorMessage("Cannot add votes at this time.");
+      });
   }
-  
+  if (invalidID)
+    return (
+      <section id="non-existent-id-container">
+        <p>Article does not exist</p>
+      </section>
+    );
+  if (loadingIndividual) return <p>Loading article...</p>;
   return (
     <section id="single-article-page">
       <article id="single-container">
@@ -66,34 +87,34 @@ export default function SingleArticle() {
         </section>
         <div id="votes-container">
           {!articleData.voted && (
-            <button onClick={() => updateVote(articleData.article_id, 1)}>↑</button>
+            <button onClick={() => updateVote(articleData.article_id, 1)}>
+              ↑
+            </button>
           )}
           <p>Votes: {articleData.votes}</p>
           {!articleData.voted && (
-          <button onClick={() => updateVote(articleData.article_id, -1)}>↓</button>
+            <button onClick={() => updateVote(articleData.article_id, -1)}>
+              ↓
+            </button>
           )}
         </div>
-        {articleData.voted && <aside className='success' role="status">Vote submitted!</aside>}
-        {errMessage ? <aside className='error' role="alert">{errMessage}</aside> : null}
+        {articleData.voted && (
+          <aside className="success" role="status">
+            Vote submitted!
+          </aside>
+        )}
+        {errMessage ? (
+          <aside className="error" role="alert">
+            {errMessage}
+          </aside>
+        ) : null}
         <div id="comments-top">
           <p>Comments: {articleData.comment_count}</p>
-        <Expandable contentDescriptor={"comments"}>
-          <Comments articleID={articleID} setArticleData={setArticleData} />
-        </Expandable>
+          <Expandable contentDescriptor={"comments"}>
+            <Comments articleID={articleID} setArticleData={setArticleData} />
+          </Expandable>
         </div>
       </article>
     </section>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

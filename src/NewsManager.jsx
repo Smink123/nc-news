@@ -3,6 +3,7 @@ import { useState } from "react";
 import Home from "./Home";
 import Navigation from "./Navigation";
 import AllArticles from "./AllArticles";
+import NonExistent from "./NonExistent";
 import "./CSS/news-manager.css";
 import SingleArticle from "./SingleArticle";
 
@@ -24,6 +25,7 @@ export default function NewsManager() {
       <Navigation searchParams={searchParams} setSearchParams={setSearchParams} setTopicQuery={setTopicQuery}/>
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="*" element={<NonExistent />}></Route>
         <Route path="/articles" element={<AllArticles searchResultsArticles={searchResultsArticles} setSearchResultArticals={setSearchResultArticals} searchParams={searchParams} setTopicQuery={setTopicQuery}/>}></Route>
         <Route path="/articles/:article_id" element={<SingleArticle/>}></Route>
       </Routes>
