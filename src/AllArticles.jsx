@@ -81,9 +81,9 @@ export default function AllArticles({
           {sortBy === "votes" && <p>Sorting by Votes</p>}
           {orderBy === "asc" && <p>Ordering by Ascending</p>}
           {orderBy === "desc" && <p>Ordering by Descending</p>}
-          <p id="total-amount-num">
+          {/* <p id="total-amount-num">
             Total articles: {searchResultsArticles.total_count}
-          </p>
+          </p> */}
           <ArticlesList
             searchResultsArticles={searchResultsArticles}
             setTopicQuery={setTopicQuery}

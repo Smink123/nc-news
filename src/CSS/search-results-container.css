@@ -32,3 +32,8 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+#top-container {
+    display: flex;
+    flex-direction: row;
+}
