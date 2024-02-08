@@ -4,12 +4,23 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: lightgray;
-    padding: 20px;
+    padding: 30px;
     width: 100%;
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 6rem;
+    text-decoration: none;
+    color: black;
+    margin: 0;
+}
+
+h1:hover {
+    color: blue;
+}
+
+h1:active {
+    color: rgb(109, 109, 247);
 }
 
 #user-greeting {
@@ -21,6 +32,15 @@ h1 {
         display: flex;
         flex-direction: column;
         text-align: center;
+    }
+    #user-greeting {
+        font-size: 1.5rem;
+    }
+  }
+
+  @media only screen and (max-width: 850px) {
+    h1 {
+        font-size: 4rem;
     }
     #user-greeting {
         font-size: 1.5rem;

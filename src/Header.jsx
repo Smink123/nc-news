@@ -7,7 +7,7 @@ export default function Header() {
     const { currentUser }= useContext(UsernameContext);
     return (
         <header>
-            <Link to="/">
+            <Link to="/" >
             <h1>NC News</h1>
             </Link>
             <p id="user-greeting">Hello {currentUser.username}!</p>
