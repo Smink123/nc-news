@@ -71,7 +71,6 @@ export default function AllArticles({
             setOrderByTerm={setOrderByTerm}
             orderByTerm={orderByTerm}
           />
-          {/* {loadArticles && <p>Loading articles...</p>} */}
           {topicName ? (
             <h3 className="page-title">{capitalise(topicName)}</h3>
           ) : (
