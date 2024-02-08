@@ -6,10 +6,10 @@ import './CSS/nav.css'
 export default function Navigation({setTopicQuery}) {
     return (
         <nav>
-            <h3>Navigation</h3>
+            {/* <h3>Navigation</h3> */}
             <ViewAll/>
-            <ViewIndivudal/>
             <ViewTopics setTopicQuery={setTopicQuery}/>
+            <ViewIndivudal/>
         </nav>
     )
 }

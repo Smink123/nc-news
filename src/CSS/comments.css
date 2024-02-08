@@ -1,8 +1,10 @@
 #individual-comment-container, form {
-    background-color: #757575;
-    color: white;
+    background-color: #282828;
+    text-align: left;
+    color: #f5f5f5;
     margin-top: 20px;
     padding: 20px;
+
 }
 
 #comment-button-container {
@@ -40,4 +42,12 @@
 
 .dark-error {
     color: black;
+}
+
+#full-article-name {
+    font-weight: bold;
+}
+
+hr {
+    border-color: #0454f5 /* This sets the color of the line */
 }

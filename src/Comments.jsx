@@ -92,7 +92,7 @@ export default function Comments({ articleID, setArticleData }) {
     <>
       {articleComments.map((comment) => (
         <section key={comment.comment_id} id="individual-comment-container">
-          <b>{comment.author}</b>
+          <bold id='full-article-name'>{comment.author}</bold>
           <p className="italic">
             {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
           </p>
@@ -117,7 +117,7 @@ export default function Comments({ articleID, setArticleData }) {
                 />
               </>
             )}
-          {comment.loadingDelete && <CircularProgress color="inherit" />}
+          {comment.loadingDelete && <CircularProgress id='loading'color="inherit" />}
           {comment.deleteError && (
             <aside className="dark-error">
               delete unsuccessful. Please try again

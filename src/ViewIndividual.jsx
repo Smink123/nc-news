@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { getArticles } from "./UTILS/utils";
 import Expandable from "./Expandable";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+
+
 
 export default function ViewIndividual() {
   const [viewArticleTitles, setViewArticleTitles] = useState([]);
@@ -22,7 +25,11 @@ export default function ViewIndividual() {
       });
   }, []);
 
-  if (loadingArticle) return <p>Loading individual articles...</p>
+  if (loadingArticle) return (
+    <div id='topics-loading'>
+      <CircularProgress color="inherit" size={50} />
+    </div>
+  )
   return (
     <>
       <Expandable contentDescriptor={"Individual Articles"}>

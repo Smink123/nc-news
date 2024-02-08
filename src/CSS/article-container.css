@@ -45,7 +45,6 @@
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-    /* background-color: white; */
 }
 
 #article-top-two {
@@ -66,7 +65,3 @@
     border: none;
     padding: 10px;
 }
-
-/* #all-page-view-more:hover {
-    color: #0454f5;
-} */

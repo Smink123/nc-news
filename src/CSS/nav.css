@@ -3,59 +3,66 @@ nav {
     flex-direction: column;
     background-color: transparent;
     width: 250px;
-    height: 100%;
     text-align: center;
+    height: auto;
+    background-color: #d3d3d3;
 }
 
 nav h3 {
     padding: 20px;
     margin: 0;
     background-color: transparent;
+    text-align: left;
 }
 
 .drop-down-organiser {
     display: flex;
     flex-direction: column;
     width: 100%;
+    text-align: right;
 }
 
 .dropdown-button {
+    text-align: left;
     width: 250px;
     border: none;
-    /* border-bottom: 1px solid black;
-    border-right: 1px solid black; */
-    padding: 5px;
+    padding: 15px 15px 15px 30px;
     cursor: pointer;
-    background-color: rgb(179, 222, 222);
+    background-color: #282828;
+    color: #d3d3d3;
 }
 .dropdown-button:hover {
     width: 100%;
     border: none;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    padding: 5px;
     cursor: pointer;
-    background-color: rgb(136, 185, 185);
+    color:#f5e929;
+    ;
+}
+
+#topics-loading {
+    text-align: left;
+    padding-left: 30px;
 }
 
 #view-all-button {
     width: 250px;
+    text-align: left;
 }
 
 #topic-section-button, #view-all-button {
-    /* background-color: white; */
+    text-align: left;
     border: none;
-    /* border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    border-top: 1px solid black;
-    border-left: 1px solid black; */
-
-    padding: 10px;
+    padding: 15px;
     font-size: 1rem;
 }
 
+#topic-section-button, #view-all-button {
+    background-color: #d3d3d3;
+}
+
 #topic-section-button:hover, #view-all-button:hover {
-    background-color: lightcyan;
+    /* background-color: red; */
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 850px) {

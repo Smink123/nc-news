@@ -3,6 +3,7 @@ import Expandable from "./Expandable";
 import { Link } from "react-router-dom";
 import { getTopics } from "./UTILS/utils";
 import { capitalise } from "./UTILS/capitalise";
+import { CircularProgress } from "@mui/material";
 
 import './CSS/nav.css'
 
@@ -16,6 +17,7 @@ export default function ViewTopics({ setTopicQuery }) {
     getTopics().then((response) => {
       setViewTopicTitles(response.topics)
       setLoadingTopics(false)
+
       setButtonsVisible(true);
     })
     .catch((err) => {
@@ -23,7 +25,11 @@ export default function ViewTopics({ setTopicQuery }) {
     });
   }, [])
 
-  if (loadingTopics) return <p>Loading topics...</p>
+  if (loadingTopics) return (
+    <div id='topics-loading'>
+      <CircularProgress color="inherit" size={50} />
+    </div>
+  )
   return (
     <>
       <Expandable contentDescriptor="Topics">
