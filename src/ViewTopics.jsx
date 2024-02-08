@@ -20,15 +20,13 @@ export default function ViewTopics({ setTopicQuery }) {
     })
     .catch((err) => {
       setLoadingTopics(false)
-
-      console.log("error: ", err);
     });
   }, [])
 
   if (loadingTopics) return <p>Loading topics...</p>
   return (
     <>
-      <Expandable contentDescriptor="Topic">
+      <Expandable contentDescriptor="Topics">
         {buttonsVisible && (
           <>
             {viewTopicTitles.map((topic) => (

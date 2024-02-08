@@ -5,6 +5,8 @@ import Comments from "./Comments";
 import Expandable from "./Expandable";
 import { patchArticleVote } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import "./CSS/single-article-container.css";
 
 export default function SingleArticle() {
@@ -88,13 +90,13 @@ export default function SingleArticle() {
         <div id="votes-container">
           {!articleData.voted && (
             <button onClick={() => updateVote(articleData.article_id, 1)}>
-              ↑
+              {<ArrowUpwardIcon/>}
             </button>
           )}
           <p>Votes: {articleData.votes}</p>
           {!articleData.voted && (
             <button onClick={() => updateVote(articleData.article_id, -1)}>
-              ↓
+              {<ArrowDownwardIcon/>}
             </button>
           )}
         </div>

@@ -1,11 +1,15 @@
 body {
-    background-color: white;
+    background-color: #f5f5f5;
     margin: 0;
     /* font-family: Arial, Helvetica, sans-serif; */
     font-family: 'Chakra Petch', sans-serif;
 }
 
 button {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+input {
     font-family: 'Chakra Petch', sans-serif;
 }
 

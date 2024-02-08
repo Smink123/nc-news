@@ -8,6 +8,9 @@ import { deleteComment } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 import Snackbar from "@mui/material/Snackbar";
 import CircularProgress from '@mui/material/CircularProgress';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 export default function Comments({ articleID, setArticleData }) {
@@ -96,15 +99,15 @@ export default function Comments({ articleID, setArticleData }) {
           <hr></hr>
           <p>"{comment.body}"</p>
           <div id="comment-button-container">
-            <button>↑</button>
+            <button>{<ArrowUpwardIcon/>}</button>
             <p>{comment.votes}</p>
-            <button>↓</button>
+            <button>{<ArrowDownwardIcon/>}</button>
           </div>
           {comment.author === currentUser.username &&
             !comment.loadingDelete && (
               <>
                 <button onClick={() => deleting(comment.comment_id)}>
-                  DELETE
+                  {<DeleteOutlineIcon/>}
                 </button>
                 <Snackbar
                   open={open}
