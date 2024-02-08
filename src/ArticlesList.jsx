@@ -4,7 +4,9 @@ import { arrangeDate } from "./UTILS/changeTime";
 import { arrangeTime } from "./UTILS/changeTime";
 import { capitalise } from "./UTILS/capitalise";
 
-export default function ArticlesList({ searchResultsArticles }) {
+export default function ArticlesList({ searchResultsArticles, loadArticles }) {
+  if (loadArticles) return <p>Loading articles...</p>
+
   return (
     <article id="entire-articles">
       {searchResultsArticles.result.map((item) => {

@@ -13,23 +13,32 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function Comments({ articleID, setArticleData }) {
   const { currentUser } = useContext(UsernameContext);
   const [articleComments, setArticleComments] = useState([]);
+  const [commentsError, setCommentsError] = useState(false)
   const [open, setOpen] = React.useState(false);
+  const [loadingComments, setLoadingComments] = useState(true)
 
   useEffect(() => {
+    setLoadingComments(true)
+    setCommentsError(false)
     if (articleID) {
       getCommentsByID(articleID)
         .then((response) => {
+          setLoadingComments(false)
           setArticleComments(response.comments);
           setArticleComments(
             response.comments.map((comment) => ({
               ...comment,
               loadingDelete: false,
               deleteError: false,
+              systemError: false
             }))
           );
         })
-        .catch((error) => {
-          console.error("Error fetching comments:", error);
+        .catch((err) => {
+          setLoadingComments(true)
+          if (err.response.data.msg === 'Bad request' || err.response.data.msg === 'ID not found') {
+            setCommentsError(true)
+          }
         });
     }
   }, [articleID]);
@@ -38,7 +47,7 @@ export default function Comments({ articleID, setArticleData }) {
     setArticleComments((previous) => {
       return previous.map((comment) => {
         if (id === comment.comment_id) {
-          return { ...comment, loadingDelete: true, deleteError: false };
+          return { ...comment, loadingDelete: true, deleteError: false, systemError: false };
         }
         return comment;
       });
@@ -54,11 +63,10 @@ export default function Comments({ articleID, setArticleData }) {
         });
       })
       .catch((err) => {
-        console.log(err);
         setArticleComments((previous) => {
           return previous.map((comment) => {
             if (id === comment.comment_id) {
-              return { ...comment, loadingDelete: false, deleteError: true };
+              return { ...comment, loadingDelete: false, deleteError: true, systemError: true };
             }
             return comment;
           });
@@ -72,6 +80,10 @@ export default function Comments({ articleID, setArticleData }) {
     }
     setOpen(false);
   };
+
+  if (commentsError) return <p>Error retrieving comments for this article</p>
+  if (loadingComments) return <p>Loading comments...</p>
+
 
   return (
     <>

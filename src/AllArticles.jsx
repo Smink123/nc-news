@@ -15,6 +15,7 @@ export default function AllArticles({
 }) {
   const [viewResults, setViewResults] = useState(false);
   const [queryError, setQueryError] = useState(false);
+  const [loadArticles, setLoadArticles] = useState(false);
   const [sortByTerm, setSortByTerm] = useSearchParams();
   const [orderByTerm, setOrderByTerm] = useSearchParams();
 
@@ -35,13 +36,15 @@ export default function AllArticles({
   const orderBy = searchParams.get("order");
 
   useEffect(() => {
+    setLoadArticles(true);
     getArticles(topicName, sortBy, orderBy)
       .then((response) => {
         setSearchResultArticals(response.articles);
         setViewResults(true);
+        setLoadArticles(false);
       })
       .catch((err) => {
-        console.log("error: ", err);
+        setLoadArticles(false);
         if (err.response.data.msg === "Bad request: query does not exist") {
           setQueryError(true);
         }
@@ -50,12 +53,14 @@ export default function AllArticles({
 
   if (queryError)
     return (
-      <div id="error-container">
+      <section id="error-container">
         <p id="query-error">
           Looks as though we don't have anything for that topic (yet)
         </p>
-      </div>
+      </section>
     );
+
+    if (loadArticles && !topicName && !orderBy && !sortBy) return <p>Loading articles...</p>
   if (viewResults)
     return (
       <>
@@ -66,22 +71,24 @@ export default function AllArticles({
             setOrderByTerm={setOrderByTerm}
             orderByTerm={orderByTerm}
           />
+          {/* {loadArticles && <p>Loading articles...</p>} */}
           {topicName ? (
             <h3 className="page-title">{capitalise(topicName)}</h3>
           ) : (
             <h3 className="page-title">All Articles</h3>
           )}
-          {sortBy === 'created_at' && <p>Sorting by Date</p>}
-          {sortBy === 'comment_count' && <p>Sorting by Comment Count</p>}
-          {sortBy === 'votes' && <p>Sorting by Votes</p>}
-          {orderBy ==='asc' && <p>Ordering by Ascending</p>}
-          {orderBy ==='desc' && <p>Ordering by Descending</p>}
+          {sortBy === "created_at" && <p>Sorting by Date</p>}
+          {sortBy === "comment_count" && <p>Sorting by Comment Count</p>}
+          {sortBy === "votes" && <p>Sorting by Votes</p>}
+          {orderBy === "asc" && <p>Ordering by Ascending</p>}
+          {orderBy === "desc" && <p>Ordering by Descending</p>}
           <p id="total-amount-num">
             Total articles: {searchResultsArticles.total_count}
           </p>
           <ArticlesList
             searchResultsArticles={searchResultsArticles}
             setTopicQuery={setTopicQuery}
+            loadArticles={loadArticles}
           />
         </main>
       </>
