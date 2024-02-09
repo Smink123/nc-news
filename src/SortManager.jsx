@@ -28,7 +28,7 @@ export default function SortManager({setSortBy, setOrderByTerm, orderByTerm, ord
         </div>
         <div>
           {sortBy === 'votes' ? (
-            <button className='sort-button selected' onClick={() => setSortBy('votes')}>Votes</button>
+            <button className='sort-buttons selected' onClick={() => setSortBy('votes')}>Votes</button>
           ):(
             <button className='sort-buttons' onClick={() => setSortBy('votes')}>Votes</button>
           ) }
