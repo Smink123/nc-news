@@ -43,6 +43,7 @@ export default function SingleArticle() {
   }, [article_id]);
 
   function updateVote(id, number) {
+    setErrorMessage(null);
     setArticleData((previousData) => {
       return {
         ...previousData,
@@ -117,12 +118,12 @@ export default function SingleArticle() {
           )}
         </div>
         {voted && (
-          <aside className="success" role="status">
+          <aside className="success vote-status" role="status">
             Vote submitted!
           </aside>
         )}
         {errMessage ? (
-          <aside className="error" role="alert">
+          <aside className="error vote-status" role="alert">
             {errMessage}
           </aside>
         ) : null}

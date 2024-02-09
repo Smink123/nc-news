@@ -6,6 +6,7 @@ import PostComment from "./PostComment";
 import UsernameContext from "./CONTEXTS/UsernameContext";
 import { useContext } from "react";
 import "./CSS/comments.css";
+import "./CSS/app.css";
 import { deleteComment } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 import Snackbar from "@mui/material/Snackbar";
@@ -87,7 +88,13 @@ export default function Comments({ articleID, setArticleData }) {
   };
 
   if (commentsError) return <p>Error retrieving comments for this article</p>
-  if (loadingComments) return <p>Loading comments...</p>
+
+  if (loadingComments)
+  return (
+    <div className="loading-container" id='comments-loading'>
+      <CircularProgress color="inherit" size={100} />
+    </div>
+  );
 
 
   return (
@@ -95,7 +102,7 @@ export default function Comments({ articleID, setArticleData }) {
       {articleComments.map((comment) => (
         <section key={comment.comment_id} id="individual-comment-container">
           <p id='full-article-name'>{comment.author}</p>
-          <p className="italic">
+          <p className="italic" id='comments-date'>
             {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
           </p>
           <hr></hr>

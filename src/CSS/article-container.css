@@ -6,10 +6,7 @@
     justify-content: center;
     align-items: center;
     width: 500px;
-    /* padding: 20px 0 0 0; */
 }
-
-
 
 #all-img {
     width: 500px;
@@ -70,4 +67,8 @@
 
 #all-page-view-more:hover {
     color: #f5e929;
+}
+
+#sorting-loading {
+    height: 100%;
 }

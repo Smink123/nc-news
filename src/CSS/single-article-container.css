@@ -136,3 +136,7 @@ article {
   .error {
     color: red;
   }
+
+  .vote-status {
+    text-align: center;
+  }
