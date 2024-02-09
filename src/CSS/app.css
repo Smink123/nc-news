@@ -39,6 +39,19 @@ button{
     /* height: 100%; */
 }
 
+#entire-articles, #single-container, #homepage-container, #comments-container {
+    animation: fadeIn ease 0.2s;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   
 @media only screen and (max-width: 850px) {
     .loading-container {

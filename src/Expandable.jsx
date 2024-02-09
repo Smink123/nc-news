@@ -1,7 +1,7 @@
 import { useState } from "react"
 import './CSS/nav.css'
 
-export default function Expandable({ children, contentDescriptor }) {
+export default function Expandable({ children, contentDescriptor}) {
     const [isOpen, setIsOpen] = useState(false)
 
 

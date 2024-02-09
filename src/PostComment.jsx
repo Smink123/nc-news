@@ -1,5 +1,3 @@
-
-
 import { postComment } from "./UTILS/utils";
 import UsernameContext from "./CONTEXTS/UsernameContext";
 import { useContext } from "react";
@@ -7,9 +5,10 @@ import { useState } from "react";
 import { getCommentsByID } from "./UTILS/utils";
 import { getArticleByID } from "./UTILS/utils";
 import { useEffect } from "react";
-
+import "./CSS/comments.css";
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
+import { CircularProgress } from "@mui/material";
 
 export default function PostComment({
   articleID,
@@ -29,12 +28,13 @@ export default function PostComment({
   useEffect(() => {
     setErrorMessage("");
     setErrorStatus(false);
-    setOpen(false)
+    setOpen(false);
   }, [articleID]);
 
   function handleSubmit(event) {
+    setErrorMessage("");
     event.preventDefault();
-    if (userComment.body.length < 3) {
+    if (userComment.body.length < 2) {
       setErrorMessage(
         "Error: Please ensure your comment has minimum of 2 characters"
       );
@@ -98,7 +98,7 @@ export default function PostComment({
     <>
       <form onSubmit={handleSubmit}>
         <div id="comment-box">
-          <label htmlFor="post-comment">Write comment: </label>
+          <label htmlFor="post-comment" id='bold-write-comment'>Write comment: </label>
           <input
             onChange={handleKeyPress}
             id="post-comment"
@@ -107,26 +107,32 @@ export default function PostComment({
           />
         </div>
         <div id="comment-submit-container">
-          <button onClick={handleSubmit}>Submit comment</button>
-          <Snackbar
-            open={open}
-            autoHideDuration={4000}
-            onClose={handleClose}
-            message="Successfully posted"
-          />
+        <div id="status-section">
+          <div>
+            {errorMessage ? (
+              <aside className="error comments-error">{errorMessage}</aside>
+              ) : null}
+          </div>
+          <div>
+            {errorStatus ? (
+              <aside className="error comments-error">{errorStatus}</aside>
+              ) : null}
+          </div>
+              {isLoading ? <CircularProgress color="inherit"/> : null}
+              {!isLoading && (
+                <>
+                <button onClick={handleSubmit}>Submit comment</button>
+                <Snackbar
+                  open={open}
+                  autoHideDuration={4000}
+                  onClose={handleClose}
+                  message="Successfully posted"
+                />
+                </>
+              )}
+        </div>
         </div>
       </form>
-      <div id="status-section">
-        <div>
-          {errorMessage ? (
-            <aside className="error">{errorMessage}</aside>
-          ) : null}
-        </div>
-        <div>
-          {errorStatus ? <aside className="error">{errorStatus}</aside> : null}
-        </div>
-        {isLoading ? <p>loading...</p> : null}
-      </div>
     </>
   );
 }

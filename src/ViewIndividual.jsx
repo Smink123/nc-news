@@ -10,6 +10,7 @@ export default function ViewIndividual() {
   const [viewArticleTitles, setViewArticleTitles] = useState([]);
   const [buttonsVisible, setButtonsVisible] = useState(false);
   const [loadingArticle, setLoadingArticle] = useState(false)
+  
 
 
   useEffect(() => {

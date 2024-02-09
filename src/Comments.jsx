@@ -99,6 +99,7 @@ export default function Comments({ articleID, setArticleData }) {
 
   return (
     <>
+    <section id='comments-container'>
       {articleComments.map((comment) => (
         <section key={comment.comment_id} id="individual-comment-container">
           <p id='full-article-name'>{comment.author}</p>
@@ -129,7 +130,7 @@ export default function Comments({ articleID, setArticleData }) {
           {comment.loadingDelete && <CircularProgress id='loading'color="inherit" />}
           {comment.deleteError && (
             <aside className="dark-error">
-              delete unsuccessful. Please try again
+              Delete unsuccessful. Please try again
             </aside>
           )}
         </section>
@@ -139,6 +140,7 @@ export default function Comments({ articleID, setArticleData }) {
         setArticleComments={setArticleComments}
         setArticleData={setArticleData}
       />
+      </section>
     </>
   );
 }

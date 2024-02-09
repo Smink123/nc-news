@@ -78,17 +78,15 @@ export default function AllArticles({
             setOrderBy={setOrderBy}
             setOrderByTerm={setOrderByTerm}
             orderByTerm={orderByTerm}
+            orderBy={orderBy}
+            sortBy={sortBy}
           />
           {topicName ? (
             <h3 className="page-title">{capitalise(topicName)}</h3>
           ) : (
             <h3 className="page-title">All Articles</h3>
           )}
-          {sortBy === "created_at" && <p>Sorting by Date</p>}
-          {sortBy === "comment_count" && <p>Sorting by Comment Count</p>}
-          {sortBy === "votes" && <p>Sorting by Votes</p>}
-          {orderBy === "asc" && <p>Ordering by Ascending</p>}
-          {orderBy === "desc" && <p>Ordering by Descending</p>}
+
           {/* <p id="total-amount-num">
             Total articles: {searchResultsArticles.total_count}
           </p> */}

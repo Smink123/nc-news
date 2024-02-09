@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: row;
     background-color: #f5f5f5;
-
 }
 
 #default-order {
@@ -37,6 +36,16 @@
     padding: 7px;
 }
 
+.selected {
+    background-color: #282828;
+    color: #f5f5f5;
+    border: none;
+    font-size: 1rem;
+    padding: 7px 10px;
+    margin-right: 8px;
+    border-radius: 40px;
+}
+
 
 @media only screen and (max-width: 1100px) {
 
@@ -52,5 +61,22 @@
         padding: 7px 10px;
         margin: 4px;
         width: 150px;
+    }
+    .selected {
+        background-color: #282828;
+        color: #f5f5f5;
+        border: none;
+        font-size: 1rem;
+        padding: 7px 10px;
+        border-radius: 40px;
+        margin: 4px;
+        width: 150px;
+    }
+  }
+
+  @media only screen and (max-width: 850px) {
+
+    .sort-buttons {
+        font-size: 0.8rem;
     }
   }
