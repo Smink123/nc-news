@@ -61,6 +61,8 @@ export default function AllArticles({
     );
 
     if (loadArticles && !topicName && !orderBy && !sortBy) return <p>Loading articles...</p>
+    if (loadArticles && topicName && !orderBy && !sortBy) return <p>Loading articles...</p>
+
   if (viewResults)
     return (
       <>
