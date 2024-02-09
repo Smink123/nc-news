@@ -32,7 +32,7 @@ export default function ViewIndividual() {
   )
   return (
     <>
-      <Expandable contentDescriptor={"Individual Articles"}>
+      <Expandable contentDescriptor={"Most Recent Articles"}>
         {buttonsVisible && (
           <>
             {viewArticleTitles.result.map((article) => (

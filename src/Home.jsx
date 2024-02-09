@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./CSS/homepage-container.css";
+import "./CSS/app.css"
 import { Link } from "react-router-dom";
 import { arrangeDate } from "./UTILS/changeTime";
 import { arrangeTime } from "./UTILS/changeTime";
@@ -10,6 +11,8 @@ import { useEffect } from "react";
 import "./CSS/article-container.css";
 import { getArticleByID } from "./UTILS/utils";
 import { CircularProgress } from "@mui/material";
+import CreateIcon from '@mui/icons-material/Create';
+
 
 export default function Home() {
   const [loadingIndividualHome, setLoadingIndividualHome] = useState(false);
@@ -21,7 +24,6 @@ export default function Home() {
     setLoadingIndividualHome(true);
     getArticleByID(randomNum)
       .then((response) => {
-        console.log(response.article);
         setLoadingIndividualHome(false);
         setSpotlightArticle({ ...response.article });
       })
@@ -39,21 +41,25 @@ export default function Home() {
   if (invalidID)
     return (
       <section id="non-existent-id-container">
-        <h2>Welcome to NC News</h2>
-        <p>Cannot load spotlight content</p>
+        <h2 className="website-greet">Welcome to NC News</h2>
+        <p className="error">Cannot load spotlight content</p>
       </section>
     );
-  if (loadingIndividualHome) return <CircularProgress color="inherit"/>
+  if (loadingIndividualHome) return  (
+    <div className="loading-container">
+      <CircularProgress color="inherit" size={100}/>
+    </div>
+  )
   return (
     <section id="homepage-container">
-      <h2>Welcome to NC News</h2>
-      <p>Checkout our spotlight article!</p>
+      <h2 className="website-greet">Welcome to NC News</h2>
+      <p id='spotlight-intro'>Checkout our spotlight article:</p>
       {spotlightArticle && (
         <section id="spotlight-article">
           <div id="article-container" key={spotlightArticle.article_id}>
             <section id="article-top">
               <h3 id="article-header">{spotlightArticle.title}</h3>
-              <p id="all-articles-author">By {spotlightArticle.author}</p>
+              <p id="all-articles-author">{<CreateIcon fontSize="small"/>}By {spotlightArticle.author}</p>
               <div id="article-top-two">
                 <p>
                   {arrangeDate(spotlightArticle.created_at)},{" "}
@@ -64,7 +70,7 @@ export default function Home() {
             <img
               id="all-img"
               src={spotlightArticle.article_img_url}
-              alt={`Photograph image for ${spotlightArticle.title}`}
+              alt={`Image for ${spotlightArticle.topic}`}
             />
             <div id="article-bottom">
               <div id="emoji-container">
@@ -85,7 +91,7 @@ export default function Home() {
                 )}
               </div>
               <Link to={`/articles/${spotlightArticle.article_id}`}>
-                <button id="all-page-view-more">view article</button>
+                <button id="all-page-view-more">View Article</button>
               </Link>
             </div>
           </div>

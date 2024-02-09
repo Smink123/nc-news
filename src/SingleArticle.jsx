@@ -8,6 +8,11 @@ import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import "./CSS/single-article-container.css";
+import "./CSS/app.css"
+import CreateIcon from '@mui/icons-material/Create';
+import { CircularProgress } from "@mui/material";
+
+
 
 export default function SingleArticle() {
   const [articleData, setArticleData] = useState({});
@@ -35,7 +40,7 @@ export default function SingleArticle() {
           setInvalidID(true);
         }
       });
-  }, [article_id, articleID]);
+  }, [article_id]);
 
   function updateVote(id, number) {
     setArticleData((previousData) => {
@@ -69,14 +74,20 @@ export default function SingleArticle() {
         <p>Article does not exist</p>
       </section>
     );
-  if (loadingIndividual) return <p>Loading article...</p>;
+
+    if (loadingIndividual) return  (
+      <div className="loading-container">
+        <CircularProgress color="inherit" size={100}/>
+      </div>
+    )
+  // if (loadingIndividual) return <p>Loading article...bdb</p>;
   return (
     <section id="single-article-page">
       <article id="single-container">
-        <h2>{articleData.title}</h2>
+        <h2 id='single-article-header'>{articleData.title}</h2>
         <div id="top-single-article">
           <section>
-            <b>Written by {articleData.author}</b>
+            <b>{<CreateIcon fontSize="small"/>}Written by {articleData.author}</b>
             <p>
               Created {arrangeDate(articleData.created_at)},{" "}
               {arrangeTime(articleData.created_at)}
@@ -117,7 +128,7 @@ export default function SingleArticle() {
         ) : null}
         <div id="comments-top">
           <p>Comments: {articleData.comment_count}</p>
-          <Expandable contentDescriptor={"comments"}>
+          <Expandable contentDescriptor={" latest comments"}>
             <Comments articleID={articleID} setArticleData={setArticleData} />
           </Expandable>
         </div>

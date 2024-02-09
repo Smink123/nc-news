@@ -5,7 +5,10 @@ import ArticlesList from "./ArticlesList";
 import { capitalise } from "./UTILS/capitalise";
 import SortManager from "./SortManager";
 import { useSearchParams } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+
 import "./CSS/search-results-container.css";
+import "./CSS/app.css"
 
 export default function AllArticles({
   searchResultsArticles,
@@ -60,8 +63,11 @@ export default function AllArticles({
       </section>
     );
 
-    if (loadArticles && !topicName && !orderBy && !sortBy) return <p>Loading articles...</p>
-    if (loadArticles && topicName && !orderBy && !sortBy) return <p>Loading articles...</p>
+    if ((loadArticles && !topicName && !orderBy && !sortBy) || (loadArticles && topicName && !orderBy && !sortBy)) return (
+      <div className="loading-container">
+         <CircularProgress color="inherit" size={100}/>
+      </div>
+      )
 
   if (viewResults)
     return (

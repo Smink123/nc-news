@@ -94,7 +94,7 @@ export default function Comments({ articleID, setArticleData }) {
     <>
       {articleComments.map((comment) => (
         <section key={comment.comment_id} id="individual-comment-container">
-          <bold id='full-article-name'>{comment.author}</bold>
+          <p id='full-article-name'>{comment.author}</p>
           <p className="italic">
             {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
           </p>
