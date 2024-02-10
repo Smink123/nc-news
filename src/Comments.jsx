@@ -1,7 +1,5 @@
-
-
 import React, { useEffect, useState } from "react";
-import { getCommentsByID } from "./UTILS/utils";
+import { getCommentsByID, patchCommentVote } from "./UTILS/utils";
 import PostComment from "./PostComment";
 import UsernameContext from "./CONTEXTS/UsernameContext";
 import { useContext } from "react";
@@ -10,40 +8,42 @@ import "./CSS/app.css";
 import { deleteComment } from "./UTILS/utils";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
 import Snackbar from "@mui/material/Snackbar";
-import CircularProgress from '@mui/material/CircularProgress';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-
+import CircularProgress from "@mui/material/CircularProgress";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export default function Comments({ articleID, setArticleData }) {
   const { currentUser } = useContext(UsernameContext);
   const [articleComments, setArticleComments] = useState([]);
-  const [commentsError, setCommentsError] = useState(false)
+  const [commentsError, setCommentsError] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [loadingComments, setLoadingComments] = useState(true)
+  const [loadingComments, setLoadingComments] = useState(true);
 
   useEffect(() => {
-    setLoadingComments(true)
-    setCommentsError(false)
+    setLoadingComments(true);
+    setCommentsError(false);
     if (articleID) {
       getCommentsByID(articleID)
         .then((response) => {
-          setLoadingComments(false)
+          setLoadingComments(false);
           setArticleComments(response.comments);
           setArticleComments(
             response.comments.map((comment) => ({
               ...comment,
               loadingDelete: false,
               deleteError: false,
-              systemError: false
+              systemError: false,
             }))
           );
         })
         .catch((err) => {
-          setLoadingComments(true)
-          if (err.response.data.msg === 'Bad request' || err.response.data.msg === 'ID not found') {
-            setCommentsError(true)
+          setLoadingComments(true);
+          if (
+            err.response.data.msg === "Bad request" ||
+            err.response.data.msg === "ID not found"
+          ) {
+            setCommentsError(true);
           }
         });
     }
@@ -53,7 +53,12 @@ export default function Comments({ articleID, setArticleData }) {
     setArticleComments((previous) => {
       return previous.map((comment) => {
         if (id === comment.comment_id) {
-          return { ...comment, loadingDelete: true, deleteError: false, systemError: false };
+          return {
+            ...comment,
+            loadingDelete: true,
+            deleteError: false,
+            systemError: false,
+          };
         }
         return comment;
       });
@@ -72,7 +77,12 @@ export default function Comments({ articleID, setArticleData }) {
         setArticleComments((previous) => {
           return previous.map((comment) => {
             if (id === comment.comment_id) {
-              return { ...comment, loadingDelete: false, deleteError: true, systemError: true };
+              return {
+                ...comment,
+                loadingDelete: false,
+                deleteError: true,
+                systemError: true,
+              };
             }
             return comment;
           });
@@ -87,59 +97,98 @@ export default function Comments({ articleID, setArticleData }) {
     setOpen(false);
   };
 
-  if (commentsError) return <p>Error retrieving comments for this article</p>
+  //add error handling
+  //add success message
+  //add session storage
+  function updateCommentVotes(id, number) {
+    setArticleComments(
+      articleComments.map((comment) => {
+        if (comment.comment_id === id) {
+          return {
+            ...comment,
+            votes: comment.votes + number,
+          };
+        }
+        return comment;
+      })
+    );
+    patchCommentVote({ inc_votes: number }, id)
+      .then((response) => {})
+      .catch((err) => {
+        setArticleComments(
+          articleComments.map((comment) => {
+            if (comment.comment_id === id) {
+              return {
+                ...comment,
+                votes: comment.votes,
+              };
+            }
+            return comment;
+          })
+        );
+      });
+  }
 
+  if (commentsError) return <p>Error retrieving comments for this article</p>;
   if (loadingComments)
-  return (
-    <div className="loading-container" id='comments-loading'>
-      <CircularProgress color="inherit" size={100} />
-    </div>
-  );
-
+    return (
+      <div className="loading-container" id="comments-loading">
+        <CircularProgress color="inherit" size={100} />
+      </div>
+    );
 
   return (
     <>
-    <section id='comments-container'>
-      {articleComments.map((comment) => (
-        <section key={comment.comment_id} id="individual-comment-container">
-          <p id='full-article-name'>{comment.author}</p>
-          <p className="italic" id='comments-date'>
-            {arrangeDate(comment.created_at)}, {arrangeTime(comment.created_at)}
-          </p>
-          <hr></hr>
-          <p>"{comment.body}"</p>
-          <div id="comment-button-container">
-            <button>{<ArrowUpwardIcon/>}</button>
-            <p>{comment.votes}</p>
-            <button>{<ArrowDownwardIcon/>}</button>
-          </div>
-          {comment.author === currentUser.username &&
-            !comment.loadingDelete && (
-              <>
-                <button onClick={() => deleting(comment.comment_id)}>
-                  {<DeleteOutlineIcon/>}
-                </button>
-                <Snackbar
-                  open={open}
-                  autoHideDuration={4000}
-                  onClose={handleClose}
-                  message="Successfully deleted"
-                />
-              </>
+      <section id="comments-container">
+        {articleComments.map((comment) => (
+          <section key={comment.comment_id} id="individual-comment-container">
+            <p id="full-article-name">{comment.author}</p>
+            <p className="italic" id="comments-date">
+              {arrangeDate(comment.created_at)},{" "}
+              {arrangeTime(comment.created_at)}
+            </p>
+            <hr></hr>
+            <p>"{comment.body}"</p>
+            <div id="comment-button-container">
+              <button onClick={() => updateCommentVotes(comment.comment_id, 1)}>
+                {<ArrowUpwardIcon />}
+              </button>
+              <p>{comment.votes}</p>
+              <button
+                onClick={() => updateCommentVotes(comment.comment_id, -1)}
+              >
+                {<ArrowDownwardIcon />}
+              </button>
+            </div>
+            {comment.author === currentUser.username &&
+              !comment.loadingDelete && (
+                <>
+                  <button onClick={() => deleting(comment.comment_id)}>
+                    {<DeleteOutlineIcon />}
+                  </button>
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={handleClose}
+                    message="Successfully deleted"
+                  />
+                </>
+              )}
+            {comment.loadingDelete && (
+              <CircularProgress id="loading" color="inherit" />
             )}
-          {comment.loadingDelete && <CircularProgress id='loading'color="inherit" />}
-          {comment.deleteError && (
-            <aside className="dark-error">
-              Delete unsuccessful. Please try again
-            </aside>
-          )}
-        </section>
-      ))}
-      <PostComment
-        articleID={articleID}
-        setArticleComments={setArticleComments}
-        setArticleData={setArticleData}
-      />
+            {comment.deleteError && (
+              <aside className="dark-error">
+                Delete unsuccessful. Please try again
+              </aside>
+            )}
+          </section>
+        ))}
+        <PostComment
+          articleID={articleID}
+          setArticleComments={setArticleComments}
+          setArticleData={setArticleData}
+        />
       </section>
     </>
   );

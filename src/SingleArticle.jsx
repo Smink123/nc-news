@@ -81,7 +81,6 @@ export default function SingleArticle() {
         <CircularProgress color="inherit" size={100}/>
       </div>
     )
-  // if (loadingIndividual) return <p>Loading article...bdb</p>;
   return (
     <section id="single-article-page">
       <article id="single-container">
