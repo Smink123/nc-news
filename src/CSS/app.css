@@ -43,6 +43,14 @@ button{
     animation: fadeIn ease 0.2s;
 }
 
+.page-error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 @keyframes fadeIn {
     0% {
       opacity: 0;

@@ -1,17 +1,16 @@
-
 import { useParams } from "react-router-dom";
 import { getArticleByID, patchArticleVote } from "./UTILS/utils";
 import { useEffect, useState } from "react";
 import Comments from "./Comments";
 import Expandable from "./Expandable";
 import { arrangeDate, arrangeTime } from "./UTILS/changeTime";
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import "./CSS/single-article-container.css";
-import "./CSS/app.css"
-import CreateIcon from '@mui/icons-material/Create';
+import "./CSS/app.css";
+import CreateIcon from "@mui/icons-material/Create";
 import { CircularProgress } from "@mui/material";
-
+import CloseIcon from "@mui/icons-material/Close";
 
 
 export default function SingleArticle() {
@@ -29,14 +28,17 @@ export default function SingleArticle() {
     getArticleByID(article_id)
       .then((response) => {
         setLoadingIndividual(false);
-        setArticleData({ ...response.article});
+        setArticleData({ ...response.article });
         setArticleID(response.article.article_id);
         const votedStatus = sessionStorage.getItem(`voted_${article_id}`);
-        setVoted(votedStatus === 'true');
+        setVoted(votedStatus === "true");
       })
       .catch((err) => {
         setLoadingIndividual(false);
-        if (err.response.data.msg === 'Bad request' || err.response.data.msg === 'ID not found') {
+        if (
+          err.response.data.msg === "Bad request" ||
+          err.response.data.msg === "ID not found"
+        ) {
           setInvalidID(true);
         }
       });
@@ -51,7 +53,7 @@ export default function SingleArticle() {
       };
     });
     setVoted(true);
-    sessionStorage.setItem(`voted_${id}`, 'true');
+    sessionStorage.setItem(`voted_${id}`, "true");
     patchArticleVote({ inc_votes: number }, id)
       .then((response) => {
         setErrorMessage(null);
@@ -71,23 +73,26 @@ export default function SingleArticle() {
 
   if (invalidID)
     return (
-      <section id="non-existent-id-container">
-        <p>Article does not exist</p>
+      <section className="page-error-container">
+        <p className="error">Error: article does not exist <CloseIcon/></p>
       </section>
     );
 
-    if (loadingIndividual) return  (
+  if (loadingIndividual)
+    return (
       <div className="loading-container">
-        <CircularProgress color="inherit" size={100}/>
+        <CircularProgress color="inherit" size={100} />
       </div>
-    )
+    );
   return (
     <section id="single-article-page">
       <article id="single-container">
-        <h2 id='single-article-header'>{articleData.title}</h2>
+        <h2 id="single-article-header">{articleData.title}</h2>
         <div id="top-single-article">
           <section>
-            <b>{<CreateIcon fontSize="small"/>}Written by {articleData.author}</b>
+            <b>
+              {<CreateIcon fontSize="small" />}Written by {articleData.author}
+            </b>
             <p>
               Created {arrangeDate(articleData.created_at)},{" "}
               {arrangeTime(articleData.created_at)}
@@ -106,13 +111,13 @@ export default function SingleArticle() {
         <div id="votes-container">
           {!voted && (
             <button onClick={() => updateVote(articleData.article_id, 1)}>
-              {<ArrowUpwardIcon/>}
+              {<ArrowUpwardIcon />}
             </button>
           )}
           <p>Votes: {articleData.votes}</p>
           {!voted && (
             <button onClick={() => updateVote(articleData.article_id, -1)}>
-              {<ArrowDownwardIcon/>}
+              {<ArrowDownwardIcon />}
             </button>
           )}
         </div>

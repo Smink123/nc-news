@@ -41,19 +41,18 @@ export const patchArticleVote = (update, id) => {
 
 
 export const postComment = (comment, id) => {
-  return ncNews.post(`/comments/${id}`, comment).then((response) => {
+  return ncNews.post(`/articles/${id}/comments`, comment).then((response) => {
     return response.data;
   });
 };
 
 export const deleteComment = (id) => {
-  return ncNews.delete(`/comments/${id}`).then((response) => {
+  return ncNews.delete(`/comments/${id}766876`).then((response) => {
     return response.data
   })
 }
 
 export const patchCommentVote = (update, id) => {
-  // console.log(update, id)
   return ncNews.patch(`/comments/${id}`, update).then((response) => {
     return response.data
   })

@@ -8,15 +8,12 @@ export default function Header() {
 
   let d = new Date();
   let formatter = Intl.DateTimeFormat("default", {
-    // weekday: "short",
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
   });
-
-  // console.log(formatter.format(d));
 
   return (
     <header>

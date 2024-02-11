@@ -56,7 +56,6 @@ export default function Home() {
       <h2 className="website-greet">Welcome to NC News</h2>
       <p id='spotlight-intro'>Checkout our spotlight article:</p>
       {spotlightArticle && (
-        // <section id="spotlight-article">
           <div id="article-container" key={spotlightArticle.article_id}>
             <section id="article-top">
               <h3 id="article-header">{spotlightArticle.title}</h3>
@@ -96,7 +95,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        // </section>
       )}
     </section>
   );

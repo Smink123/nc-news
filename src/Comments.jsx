@@ -12,6 +12,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
+import DoneIcon from "@mui/icons-material/Done";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Comments({ articleID, setArticleData }) {
   const { currentUser } = useContext(UsernameContext);
@@ -34,6 +37,8 @@ export default function Comments({ articleID, setArticleData }) {
               loadingDelete: false,
               deleteError: false,
               systemError: false,
+              successVoted: false,
+              commentVoteFail: false,
             }))
           );
         })
@@ -58,6 +63,7 @@ export default function Comments({ articleID, setArticleData }) {
             loadingDelete: true,
             deleteError: false,
             systemError: false,
+            commentVoteFail: false,
           };
         }
         return comment;
@@ -82,6 +88,7 @@ export default function Comments({ articleID, setArticleData }) {
                 loadingDelete: false,
                 deleteError: true,
                 systemError: true,
+                commentVoteFail: false,
               };
             }
             return comment;
@@ -97,9 +104,6 @@ export default function Comments({ articleID, setArticleData }) {
     setOpen(false);
   };
 
-  //add error handling
-  //add success message
-  //add session storage
   function updateCommentVotes(id, number) {
     setArticleComments(
       articleComments.map((comment) => {
@@ -107,6 +111,8 @@ export default function Comments({ articleID, setArticleData }) {
           return {
             ...comment,
             votes: comment.votes + number,
+            successVoted: true,
+            commentVoteFail: false,
           };
         }
         return comment;
@@ -121,6 +127,8 @@ export default function Comments({ articleID, setArticleData }) {
               return {
                 ...comment,
                 votes: comment.votes,
+                successVoted: false,
+                commentVoteFail: true,
               };
             }
             return comment;
@@ -129,7 +137,11 @@ export default function Comments({ articleID, setArticleData }) {
       });
   }
 
-  if (commentsError) return <p>Error retrieving comments for this article</p>;
+  if (commentsError) return (
+    <div className="page-error-container">
+      <p className="error">Error retrieving comments for this article <CloseIcon/></p>
+    </div>
+    )
   if (loadingComments)
     return (
       <div className="loading-container" id="comments-loading">
@@ -150,38 +162,62 @@ export default function Comments({ articleID, setArticleData }) {
             <hr></hr>
             <p>"{comment.body}"</p>
             <div id="comment-button-container">
-              <button onClick={() => updateCommentVotes(comment.comment_id, 1)}>
-                {<ArrowUpwardIcon />}
-              </button>
-              <p>{comment.votes}</p>
-              <button
-                onClick={() => updateCommentVotes(comment.comment_id, -1)}
-              >
-                {<ArrowDownwardIcon />}
-              </button>
-            </div>
-            {comment.author === currentUser.username &&
-              !comment.loadingDelete && (
-                <>
-                  <button onClick={() => deleting(comment.comment_id)}>
-                    {<DeleteOutlineIcon />}
-                  </button>
-                  <Snackbar
-                    open={open}
-                    autoHideDuration={4000}
-                    onClose={handleClose}
-                    message="Successfully deleted"
-                  />
-                </>
+              {comment.successVoted && (
+                <p id="vote-comment-success" className="success">
+                  Successfully voted <DoneIcon />
+                </p>
               )}
-            {comment.loadingDelete && (
-              <CircularProgress id="loading" color="inherit" />
-            )}
-            {comment.deleteError && (
-              <aside className="dark-error">
-                Delete unsuccessful. Please try again
-              </aside>
-            )}
+              {comment.commentVoteFail && (
+                <p className="error">
+                  Error submitting vote <CloseIcon />
+                </p>
+              )}
+              {!comment.successVoted && (
+                <button
+                  onClick={() => updateCommentVotes(comment.comment_id, 1)}
+                >
+                  {<ArrowUpwardIcon />}
+                </button>
+              )}
+              {comment.successVoted ? (
+                <p>
+                  {comment.votes} <ThumbsUpDownIcon fontSize="small" />
+                </p>
+              ) : (
+                <p>{comment.votes}</p>
+              )}
+              {!comment.successVoted && (
+                <button
+                  onClick={() => updateCommentVotes(comment.comment_id, -1)}
+                >
+                  {<ArrowDownwardIcon />}
+                </button>
+              )}
+            </div>
+            <div id="delete-comment-section">
+              {comment.author === currentUser.username &&
+                !comment.loadingDelete && (
+                  <>
+                    <button onClick={() => deleting(comment.comment_id)}>
+                      {<DeleteOutlineIcon />}
+                    </button>
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={4000}
+                      onClose={handleClose}
+                      message="Successfully deleted"
+                    />
+                    {comment.deleteError && (
+                      <aside className="error" id="delete-comment-error">
+                        Delete unsuccessful. Please try again
+                      </aside>
+                    )}
+                  </>
+                )}
+              {comment.loadingDelete && (
+                <CircularProgress id="loading" color="inherit" />
+              )}
+            </div>
           </section>
         ))}
         <PostComment

@@ -6,6 +6,8 @@ import { capitalise } from "./UTILS/capitalise";
 import SortManager from "./SortManager";
 import { useSearchParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+
 
 import "./CSS/search-results-container.css";
 import "./CSS/app.css"
@@ -57,9 +59,7 @@ export default function AllArticles({
   if (queryError)
     return (
       <section id="error-container">
-        <p id="query-error">
-          Looks as though we don't have anything for that topic (yet)
-        </p>
+        <p id="query-error" className="error">Looks as though we don't have anything for that query...(yet)<CloseIcon/></p>
       </section>
     );
 
