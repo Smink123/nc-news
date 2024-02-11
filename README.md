@@ -5,7 +5,7 @@
 NC News is a social news aggregation, web content rating, and discussion website. This frontend project complements the backend project developed during my time at the Northcoders bootcamp. The backend API serves as the source of data for this front-end application.
 
 ### Features:
-- Browse articles organized by topics.
+- Browse articles organised by topics.
 - Upvote or downvote articles.
 - Add comments to articles.
 - Sort articles based on various criteria.
